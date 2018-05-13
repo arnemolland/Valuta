@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<prism:PrismApplication xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:prism="clr-namespace:Prism.DryIoc;assembly=Prism.DryIoc.Forms" xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core" xmlns:windows="clr-namespace:Xamarin.Forms.PlatformConfiguration.WindowsSpecific;assembly=Xamarin.Forms.Core" x:Class="Valuta.App">
+    <prism:PrismApplication.Resources>
+        <!-- Application resource dictionary -->
+        <ResourceDictionary>
+            <!-- See https://material.io/color for more help choosing a Material Design Color scheme -->
+            <Color x:Key="Primary">#78909c</Color>
+            <Color x:Key="PrimaryDark">#4b636e</Color>
+            <Color x:Key="PrimaryDarkTranslucent">#9926213C</Color>
+            <Color x:Key="Accent">#a7c0cd</Color>
+            <Color x:Key="NavigationText">White</Color>
+            <Color x:Key="LabelSectionText">#6D6D72</Color>
+            <Color x:Key="DetailTextColor">#979797</Color>
+            <Style TargetType="NavigationPage" ApplyToDerivedTypes="true">
+                <Setter Property="BarTextColor" Value="{StaticResource NavigationText}" />
+                <Setter Property="BarBackgroundColor" Value="{StaticResource PrimaryDark}" />
+            </Style>
+            <Style TargetType="TabbedPage" ApplyToDerivedTypes="true">
+                <Setter Property="BarTextColor" Value="{StaticResource NavigationText}" />
+                <Setter Property="BarBackgroundColor" Value="{StaticResource PrimaryDark}" />
+            </Style>
+
+            <OnPlatform
+                x:Key="Roboto-Regular"
+                x:TypeArguments="x:String"
+                Android="Roboto-Regular.ttf#Roboto-Regular"
+                iOS="Roboto-Regular"/>
+
+            <OnPlatform
+                x:Key="Roboto-Light"
+                x:TypeArguments="x:String"
+                Android="Roboto-Light.ttf#Roboto-Light"
+                iOS="Roboto-Light"/>
+
+            <OnPlatform
+                x:Key="Roboto-Bold"
+                x:TypeArguments="x:String"
+                Android="Roboto-Bold.ttf#Roboto-Bold"
+                iOS="Roboto-Bold"/>
+
+            <OnPlatform
+                x:Key="Material"
+                x:TypeArguments="x:String"
+                Android="Material.ttf#Material"
+                iOS="Material"/>
+
+            <Style
+                x:Key="RobotoRegular"
+                TargetType="Label">
+                <Setter
+                    Property="FontFamily"
+                    Value="{StaticResource Roboto-Regular}"/>
+            </Style>
+
+            <Style
+                x:Key="RobotoLight"
+                TargetType="Label">
+                <Setter
+                    Property="FontFamily"
+                    Value="{StaticResource Roboto-Light}"/>
+            </Style>
+
+            <Style
+                x:Key="RobotoBold"
+                TargetType="Label">
+                <Setter
+                    Property="FontFamily"
+                    Value="{StaticResource Roboto-Bold}"/>
+            </Style>
+
+            <Style
+                x:Key="MaterialIcon"
+                TargetType="Label">
+                <Setter
+                    Property="FontFamily"
+                    Value="{StaticResource Material}"/>
+            </Style>
+
+            
+        </ResourceDictionary>
+    </prism:PrismApplication.Resources>
+</prism:PrismApplication>

@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wpa81+wp8</AssetTargetFallback>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Prism.Forms.Extensions" Version="1.0.0-pre4" />
+    <PackageReference Include="Prism.DryIoc.Forms" Version="7.0.0.396" />
+    <PackageReference Include="Prism.Plugin.Popups" Version="2.0.0-pre4" />
+    <PackageReference Include="Plugin.Multilingual" Version="1.0.2" />
+    <PackageReference Include="Refractored.MvvmHelpers" Version="1.3.0" />
+    <PackageReference Include="Acr.UserDialogs" Version="7.0.1" />
+    <PackageReference Include="Prism.QuickStart.MFractor.Config" Version="1.0.3" PrivateAssets="all" />
+    <PackageReference Include="Xamarin.Forms" Version="3.0.0.446417" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="1.6.0" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="1.6.0" />
+    <PackageReference Include="Microsoft.AppCenter.Distribute" Version="1.6.0" />
+    <PackageReference Include="Microsoft.AppCenter.Push" Version="1.6.0" />
+    <PackageReference Include="Realm" Version="3.0.0" />
+    <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.3.6" />
+    <PackageReference Include="Xamarin.FFImageLoading.Transformations" Version="2.3.6" />
+    <PackageReference Include="Mobile.BuildTools" Version="1.2.1.558" />
+    <PackageReference Include="LiveXAML" Version="2.1.22" />
+    <PackageReference Include="PropertyChanged.Fody" Version="2.2.10" />
+    <PackageReference Include="Fody" Version="2.5.0" />
+    <PackageReference Include="UXDivers.Effects" Version="0.6.3" />
+    <PackageReference Include="Naxam.Effects" Version="1.0.6.3" />
+    <PackageReference Include="refit" Version="4.3.0" />
+    <PackageReference Include="Polly" Version="6.0.1" />
+    <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms" Version="2.3.6" />
+    <PackageReference Include="NETStandard.Library" Version="2.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Effects\ShadowEffect.cs" />
+    <Compile Remove="Helpers\JsonHelpers.cs" />
+    <Compile Remove="Helpers\CurrencyResult.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\*.resx" Generator="ResXFileCodeGenerator" LastGenOutput="%(Filename).Designer.cs" />
+    <Compile Update="Resources\AppResources.Designer.cs" DesignTime="true" AutoGen="true" DependentUpon="AppResources.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Effects\" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:behaviors="clr-namespace:Prism.Behaviors;assembly=Prism.Forms" 
+             xmlns:i18n="using:Valuta.i18n" 
+             xmlns:local="clr-namespace:Valuta;assembly=Valuta"
+             xmlns:effects="clr-namespace:Naxam.Effects;assembly=Naxam.Effects"
+             xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+             Title="{Binding Title}" 
+             x:Name="view" 
+             x:Class="Valuta.Views.MainPage"
+             BackgroundColor="Silver">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{i18n:Translate AddButton}" Command="{Binding AddCurrencyCommand}" />
+    </ContentPage.ToolbarItems>
+    <ListView ItemsSource="{Binding Currencies}" 
+              IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+              IsPullToRefreshEnabled="true"
+              RefreshCommand="{Binding RefreshCommand}"
+              ItemTapped="Handle_ItemTapped"
+              RowHeight="200"
+              SeparatorVisibility="None"
+              >
+        <ListView.Behaviors>
+            <behaviors:EventToCommandBehavior 
+            Command="{Binding CurrencyTappedCommand}" 
+            EventName="ItemTapped" 
+            EventArgsParameterPath="Item" />
+        </ListView.Behaviors>
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <Frame effects:ViewEffect.CornerRadius="4"
+                           Margin="10"
+                           effects:ViewEffect.ShadowOpacity="0.5"
+                           effects:ViewEffect.ShadowRadius="3"
+                           effects:ViewEffect.ShadowOffsetX="0.5"
+                           effects:ViewEffect.ShadowOffsetY="2">
+                       
+                        <AbsoluteLayout>
+                            <StackLayout>
+                                <Label Text="{Binding BaseCur}"
+                                       FontSize="36"
+                                       TextColor="#AB47BC"
+                                       Style="{StaticResource RobotoBold}"/>
+                                
+                                <StackLayout Orientation="Horizontal">
+                                <Label Text="{Binding CurrentValue}"
+                                       FontSize="42"
+                                       TextColor="#616161"
+                                       Style="{StaticResource RobotoLight}"/>
+
+                                <Label Text="NOK"
+                                       FontSize="18"
+                                       VerticalOptions="CenterAndExpand"
+                                       Style="{StaticResource RobotoLight}"
+                                       TextColor="#BDBDBD"/>
+                                        
+                                </StackLayout>
+                                </StackLayout>
+
+                            <Label
+                                AbsoluteLayout.LayoutFlags="All"
+                                AbsoluteLayout.LayoutBounds="0.5,1,0.2,0.2"
+                                Text="{Binding InfoLabel}"
+                                Style="{StaticResource RobotoLight}"
+                                FontSize="18"
+                                TextColor="#BDBDBD"/>
+
+                            <ffimageloadingsvg:SvgCachedImage Source="{ Binding CurrentTrendIcon }"
+                                                              HeightRequest="50"
+                                                              WidthRequest="50"
+                                                              AbsoluteLayout.LayoutFlags="All"
+                                                              AbsoluteLayout.LayoutBounds="0.98,1,0.1,0.1"/>
+                            </AbsoluteLayout>
+                    </Frame>
+                    <ViewCell.ContextActions>
+                        <MenuItem Text="{i18n:Translate DeleteButton}" IsDestructive="true" Command="{Binding BindingContext.DeleteCurrencyCommand,Source={x:Reference view}}" CommandParameter="{Binding .}" />
+                    </ViewCell.ContextActions>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+</ContentPage>
