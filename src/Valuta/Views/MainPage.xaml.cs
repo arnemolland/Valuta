@@ -1,4 +1,5 @@
 ﻿using Xamarin.Forms;
+using Valuta.ViewModels;
 
 namespace Valuta.Views
 {
@@ -7,7 +8,7 @@ namespace Valuta.Views
         public MainPage()
         {
             InitializeComponent();
-			//NavigationPage.SetHasNavigationBar(this, false);
+			NavigationPage.SetHasNavigationBar(this, false);
         }
 
         private void Handle_ItemTapped(object sender, Xamarin.Forms.ItemTappedEventArgs e)

@@ -10,6 +10,7 @@ using FFImageLoading.Transformations;
 using Valuta.Services;
 using Valuta.iOS.Services;
 using FFImageLoading.Svg.Forms;
+using System.Diagnostics;
 
 namespace Valuta.iOS
 {
@@ -35,9 +36,17 @@ namespace Valuta.iOS
 #if DEBUG
             Xamarin.Calabash.Start();
 #endif
-            LoadApplication(new App(new iOSInitializer()));
+			try
+			{
+				LoadApplication(new App(new iOSInitializer()));
 
-            return base.FinishedLaunching(uiApplication, launchOptions);
+				return base.FinishedLaunching(uiApplication, launchOptions);
+			}
+			catch(Exception e)
+			{
+				Debug.WriteLine(e.ToString());
+				return base.FinishedLaunching(uiApplication, launchOptions);
+			}
         }
 
         public override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, System.Action<UIBackgroundFetchResult> completionHandler)

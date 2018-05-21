@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using Valuta.Models;
+using PropertyChanged;
 
 namespace Valuta.Helpers
 {
-    public static class AppConstants
+    [AddINotifyPropertyChangedInterfaceAttribute]
+	public static class AppConstants
     {
 		// Put constants here that are not of a sensitive nature
 
@@ -12,6 +15,8 @@ namespace Valuta.Helpers
 		public static string ApiBaseAdress = "https://data.fixer.io";
         
 		public static Dictionary <string, decimal> Rates { get; set; }
+
+		public static List<Currency> RatesHelper = new List<Currency>();
 
         public static string AppCenterStart
         {

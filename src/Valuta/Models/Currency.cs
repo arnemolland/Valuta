@@ -2,32 +2,18 @@
 using Realms;
 using PropertyChanged;
 using Realms.Exceptions;
+using Valuta.Helpers;
 
 namespace Valuta.Models
 {
 	[AddINotifyPropertyChangedInterface]
 	public class Currency : RealmObject
     {
+        [PrimaryKey]
 		public string BaseCur { get; set; }
 		public string QuoteCur { get; set; }
 		public string FullName { get { return GetFullName(); }}
-		public double CurrentValue
-		{
-			get => CurrentValue;
-			set
-			{
-				if (value >= 1)
-				{
-					CurrentValue = value;
-					CompareValue = 1;
-				}
-				else
-				{
-					CurrentValue = value * 100;
-					CompareValue = 100;
-				}
-			}
-		}
+		public double CurrentValue { get; set; }
 
 		public double YesterdayValue { get; set; }
 		public double MonthlyValue { get; set; }
@@ -39,17 +25,15 @@ namespace Valuta.Models
 		public double MonthlyTrend { get { return ((MonthlyValue - LastMonthValue) / Math.Abs(LastMonthValue)) * 100; }}
 		public double YearlyTrend { get { return ((YearlyValue - LastYearValue) / Math.Abs(LastYearValue)) * 100; }}
               
-		public char SelectedTrend { get; set; }
-
 		public string CurrentTrendIcon { get { return GetTrendIcon(); } }
-		public int CompareValue { get; set; }
-		public string InfoLabel { get { return $"{CompareValue} {BaseCur} i NOK"; }}
+		public double CompareValue { get; set; }
+		public string InfoLabel { get { return String.Format("{0} {1} I NOK", CompareValue, BaseCur); }}
 
 		public string GetTrendIcon()
 		{
-			switch (SelectedTrend)
+			switch (Settings.SelectedTrend)
 			{
-				case 'A':
+				case "A":
 					if (YearlyTrend > 0)
 						return "TrendUp.svg";
 					else if (YearlyTrend == 0)
@@ -57,7 +41,7 @@ namespace Valuta.Models
 					else
 						return "TrendDown.svg";
 
-				case 'M':
+				case "M":
 					if (MonthlyTrend > 0)
 						return "TrendUp.svg";
 					else if (MonthlyTrend == 0)
@@ -65,7 +49,7 @@ namespace Valuta.Models
 					else
 						return "TrendDown.svg";
 
-				case 'B':
+				case "B":
 					if (DailyTrend > 0)
 						return "TrendUp.svg";
 					else if (DailyTrend == 0)

@@ -14,43 +14,41 @@ using Valuta.Services;
 using PropertyChanged;
 using System.Threading.Tasks;
 using Realms.Sync.Testing;
-using Valuta.Helpers;
 
 namespace Valuta.ViewModels
 {
-	[AddINotifyPropertyChangedInterface]
-    public class MainPageViewModel : ViewModelBase
+    [AddINotifyPropertyChangedInterface]
+    public class MyPageViewModel : ViewModelBase
     {
         private Realm _realm { get; }
 
-        public MainPageViewModel(INavigationService navigationService, IPageDialogService pageDialogService,
+        public MyPageViewModel(INavigationService navigationService, IPageDialogService pageDialogService,
                                  IDeviceService deviceService, Realm realm)
             : base(navigationService, pageDialogService, deviceService)
         {
-
             _realm = realm;
 
             Title = AppResources.MainPageTitle;
-           
-			CurrencyTappedCommand = new DelegateCommand<Currency>(OnCurrencyTappedCommandExecuted);
 
-			AddCurrencyCommand = new DelegateCommand(OnAddCurrencyCommandExecuted);
-			DeleteCurrencyCommand = new DelegateCommand<Currency>(OnDeleteCurrencyCommandExecuted);
-			CurrencyTappedCommand = new DelegateCommand<Currency>(OnCurrencyTappedCommandExecuted);
-			RefreshCommand = new DelegateCommand(OnRefreshCommandExecuted);
+            CurrencyTappedCommand = new DelegateCommand<Currency>(OnCurrencyTappedCommandExecuted);
+
+            AddCurrencyCommand = new DelegateCommand(OnAddCurrencyCommandExecuted);
+            DeleteCurrencyCommand = new DelegateCommand<Currency>(OnDeleteCurrencyCommandExecuted);
+            CurrencyTappedCommand = new DelegateCommand<Currency>(OnCurrencyTappedCommandExecuted);
+            RefreshCommand = new DelegateCommand(OnRefreshCommandExecuted);
         }
-		public IEnumerable<Currency> Currencies { get; set; }
-        
+        public IEnumerable<Currency> Currencies { get; set; }
+
         public IEnumerable<TodoItem> TodoItems { get; set; }
-        
-        
+
+
         public DelegateCommand AddCurrencyCommand { get; }
 
-		public DelegateCommand<Currency> DeleteCurrencyCommand { get; }
+        public DelegateCommand<Currency> DeleteCurrencyCommand { get; }
+        
+        public DelegateCommand<Currency> CurrencyTappedCommand { get; }
 
-		public DelegateCommand<Currency> CurrencyTappedCommand { get; }
-
-		public DelegateCommand RefreshCommand { get; }
+        public DelegateCommand RefreshCommand { get; }
 
         public override void OnNavigatedTo(NavigationParameters parameters)
         {
@@ -60,24 +58,24 @@ namespace Valuta.ViewModels
                 case NavigationMode.Back:
                     // Do anything you want to do only when Navigating Back to the View
                     break;
-				case NavigationMode.New:
-					Currencies = _realm.All<Currency>();
+                case NavigationMode.New:
+					Currencies = _realm.All<Currency>().Where(cur =>
+					                                          App.currentUser.MyCurrencies.Contains(cur));
                     break;
             }
             IsBusy = false;
         }
 
         private async void OnRefreshCommandExecuted()
-		{
+        {
 			IsBusy = true;
-			var client = new RestClient();
-			var transaction = _realm.BeginWrite();
-			await client.RefreshRatesAsync(_realm);
-			await client.GetDailyTrendAsync(_realm);
-			transaction.Commit();
-			IsBusy = false;
-		}
-        
+            var client = new RestClient();
+            var transaction = _realm.BeginWrite();
+            await client.RefreshRatesAsync(_realm);
+            transaction.Commit();
+            IsBusy = false;
+        }
+
         private async void OnAddCurrencyCommandExecuted()
         {
             var transaction = _realm.BeginWrite();
@@ -86,14 +84,14 @@ namespace Valuta.ViewModels
             {
                 { "new", true },
                 { "transaction", transaction },
-				{ "currency", currency }
+                { "currency", currency }
             });
         }
 
-		private void OnDeleteCurrencyCommandExecuted(Currency currency) =>
-		_realm.Write(() => _realm.Remove(currency));
+        private void OnDeleteCurrencyCommandExecuted(Currency currency) =>
+        _realm.Write(() => _realm.Remove(currency));
 
-		private async void OnCurrencyTappedCommandExecuted(Currency currency) =>
+        private async void OnCurrencyTappedCommandExecuted(Currency currency) =>
             await _navigationService.NavigateAsync("TodoItemDetail", new NavigationParameters
             {
                 { "currency", currency },

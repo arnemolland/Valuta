@@ -24,17 +24,24 @@ using Prism.Logging;
 using Xamarin.Forms;
 
 using DebugLogger = Valuta.Services.DebugLogger;
+using System.Diagnostics;
+using Newtonsoft.Json;
+using Plugin.Settings.Abstractions;
+using Plugin.Settings;
 
 namespace Valuta
 {
     public partial class App : PrismApplication
     {
-        /* 
+		/* 
          * NOTE: 
          * The Xamarin Forms XAML Previewer in Visual Studio uses System.Activator.CreateInstance.
          * This imposes a limitation in which the App class must have a default constructor. 
          * App(IPlatformInitializer initializer = null) cannot be handled by the Activator.
          */
+        
+		public static Models.User currentUser = JsonConvert.DeserializeObject<Models.User>(Settings.UserJson);
+
         public App()
             : this(null)
         {
@@ -54,11 +61,11 @@ namespace Valuta
 
         protected override async void OnInitialized()
         {
-            InitializeComponent();
-            LogUnobservedTaskExceptions();
-            AppResources.Culture = CrossMultilingual.Current.DeviceCultureInfo;
+    			InitializeComponent();
+    			LogUnobservedTaskExceptions();
+				AppResources.Culture = CrossMultilingual.Current.DeviceCultureInfo;
 
-            await NavigationService.NavigateAsync("SplashScreenPage");
+				await NavigationService.NavigateAsync("SplashScreenPage");
         }
 
 		protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -69,11 +76,16 @@ namespace Valuta
 
 			//var serverURL = new Uri(Secrets.RealmServer);
 			//var config = new SyncConfiguration(User.Current, serverURL);
-			var config = new RealmConfiguration();
+			var config = new RealmConfiguration() 
+			{ 
+				SchemaVersion = 0,
+				ShouldDeleteIfMigrationNeeded = true,
 
-            containerRegistry.GetContainer().Register(reuse: Reuse.Transient,
-                               made: Made.Of(() => Realm.GetInstance(config)),
-                               setup: Setup.With(allowDisposableTransient: true));
+			};
+
+				containerRegistry.GetContainer().Register(reuse: Reuse.Transient,
+								   made: Made.Of(() => Realm.GetInstance(config)),
+								   setup: Setup.With(allowDisposableTransient: true));
 
             containerRegistry.RegisterInstance<IUserDialogs>(UserDialogs.Instance);
 
@@ -83,8 +95,11 @@ namespace Valuta
             containerRegistry.RegisterForNavigation<TabbedPage>();
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage>();
+			containerRegistry.RegisterForNavigation<MyPage>();
+			containerRegistry.RegisterForNavigation<SettingsPage>();
             containerRegistry.RegisterForNavigation<SplashScreenPage>();
             containerRegistry.RegisterForNavigation<TodoItemDetail>();
+			containerRegistry.RegisterForNavigation<CustomTabbedPage>();
         }
 
         protected override async void OnStart()

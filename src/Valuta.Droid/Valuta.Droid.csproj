@@ -62,6 +62,9 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
+    <Reference Include="Mono.Android">
+      <HintPath>..\..\..\..\..\..\Library\Frameworks\Mono.framework\External\xbuild-frameworks\MonoAndroid\v8.1\Mono.Android.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Prism.Forms.Extensions" Version="1.0.0-pre4" />
@@ -93,9 +96,6 @@
     </PackageReference>
     <PackageReference Include="Xamarin.FFImageLoading.Transformations">
       <Version>2.3.6</Version>
-    </PackageReference>
-    <PackageReference Include="Mobile.BuildTools">
-      <Version>1.2.1.558</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Android.Support.Design">
       <Version>27.0.2</Version>
@@ -136,6 +136,12 @@
     <PackageReference Include="NETStandard.Library">
       <Version>2.0.3</Version>
     </PackageReference>
+    <PackageReference Include="Naxam.BottomTabbedPage">
+      <Version>0.2.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xam.Plugins.Settings">
+      <Version>3.1.1</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
@@ -144,13 +150,11 @@
     <Compile Include="AndroidInitializer.cs" />
     <Compile Include="SplashActivity.cs" />
     <Compile Include="Services\DroidMessageHandlerFactory.cs" />
+    <Compile Include="CustomTabbedPageRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
-    <None Include="Resources\drawable\TrendDown.svg" />
-    <None Include="Resources\drawable\TrendStable.svg" />
-    <None Include="Resources\drawable\TrendUp.svg" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher.png" />
@@ -158,10 +162,78 @@
     <AndroidResource Include="Resources\mipmap-xhdpi\ic_launcher.png" />
     <AndroidResource Include="Resources\mipmap-xxhdpi\ic_launcher.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher.png" />
-    <AndroidResource Include="Resources\drawable\hamburger.png" />
-    <AndroidResource Include="Resources\drawable\launchscreen_icon.png" />
+    <AndroidResource Include="Resources\drawable\hamburger.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable\launchscreen_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </AndroidResource>
     <AndroidResource Include="Resources\layout\SplashScreen.axml" />
-    <AndroidResource Include="Resources\drawable\splash.png" />
+    <AndroidResource Include="Resources\drawable\splash.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\MyTabbar.axml" />
+    <AndroidResource Include="Resources\drawable\TrendDown.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable\TrendStable.svg" />
+    <AndroidResource Include="Resources\drawable\TrendUp.svg" />
+    <AndroidResource Include="Resources\mipmap-hdpi\hamburger.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </AndroidResource>
+    <AndroidResource Include="Resources\mipmap-hdpi\launchscreen_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </AndroidResource>
+    <AndroidResource Include="Resources\mipmap-hdpi\splash.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </AndroidResource>
+    <AndroidResource Include="Resources\mipmap-hdpi\TrendDown.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </AndroidResource>
+    <AndroidResource Include="Resources\mipmap-hdpi\TrendStable.svg" />
+    <AndroidResource Include="Resources\mipmap-hdpi\TrendUp.svg" />
+    <AndroidResource Include="Resources\mipmap-mdpi\hamburger.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </AndroidResource>
+    <AndroidResource Include="Resources\mipmap-mdpi\launchscreen_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </AndroidResource>
+    <AndroidResource Include="Resources\mipmap-mdpi\splash.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </AndroidResource>
+    <AndroidResource Include="Resources\mipmap-mdpi\TrendDown.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </AndroidResource>
+    <AndroidResource Include="Resources\mipmap-mdpi\TrendStable.svg" />
+    <AndroidResource Include="Resources\mipmap-mdpi\TrendUp.svg" />
+    <AndroidResource Include="Resources\mipmap-xhdpi\hamburger.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </AndroidResource>
+    <AndroidResource Include="Resources\mipmap-xhdpi\launchscreen_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </AndroidResource>
+    <AndroidResource Include="Resources\mipmap-xhdpi\splash.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </AndroidResource>
+    <AndroidResource Include="Resources\mipmap-xhdpi\TrendDown.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </AndroidResource>
+    <AndroidResource Include="Resources\mipmap-xhdpi\TrendStable.svg" />
+    <AndroidResource Include="Resources\mipmap-xhdpi\TrendUp.svg" />
+    <AndroidResource Include="Resources\mipmap-xxhdpi\hamburger.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </AndroidResource>
+    <AndroidResource Include="Resources\mipmap-xxhdpi\launchscreen_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </AndroidResource>
+    <AndroidResource Include="Resources\mipmap-xxhdpi\splash.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </AndroidResource>
+    <AndroidResource Include="Resources\mipmap-xxhdpi\TrendDown.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </AndroidResource>
+    <AndroidResource Include="Resources\mipmap-xxhdpi\TrendStable.svg" />
+    <AndroidResource Include="Resources\mipmap-xxhdpi\TrendUp.svg" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />

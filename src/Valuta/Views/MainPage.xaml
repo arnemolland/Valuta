@@ -6,13 +6,12 @@
              xmlns:local="clr-namespace:Valuta;assembly=Valuta"
              xmlns:effects="clr-namespace:Naxam.Effects;assembly=Naxam.Effects"
              xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
-             Title="{Binding Title}" 
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
+             ios:Page.UseSafeArea="true"
+             Icon="hamburger.png"
              x:Name="view" 
              x:Class="Valuta.Views.MainPage"
-             BackgroundColor="Silver">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="{i18n:Translate AddButton}" Command="{Binding AddCurrencyCommand}" />
-    </ContentPage.ToolbarItems>
+             BackgroundColor="White">
     <ListView ItemsSource="{Binding Currencies}" 
               IsRefreshing="{Binding IsBusy, Mode=OneWay}"
               IsPullToRefreshEnabled="true"
@@ -52,7 +51,8 @@
 
                                 <Label Text="NOK"
                                        FontSize="18"
-                                       VerticalOptions="CenterAndExpand"
+                                       VerticalOptions="EndAndExpand"
+                                       HorizontalOptions="StartAndExpand"
                                        Style="{StaticResource RobotoLight}"
                                        TextColor="#BDBDBD"/>
                                         
@@ -61,7 +61,7 @@
 
                             <Label
                                 AbsoluteLayout.LayoutFlags="All"
-                                AbsoluteLayout.LayoutBounds="0.5,1,0.2,0.2"
+                                AbsoluteLayout.LayoutBounds="0.005,1,0.8,0.1"
                                 Text="{Binding InfoLabel}"
                                 Style="{StaticResource RobotoLight}"
                                 FontSize="18"
